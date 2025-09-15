@@ -287,3 +287,71 @@ WHERE v.id_visitante IN (
 );
 
 
+--Obtener productos por empresa
+USE feria;
+GO
+
+CREATE PROCEDURE productos_por_empresa
+    @id_empresa INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT e.nombre AS empresa, pr.nombre AS producto, pe.nombre AS responsable
+    FROM dbo.Producto pr
+    INNER JOIN dbo.Stand s ON pr.id_stand = s.id_stand
+    INNER JOIN dbo.Empresa e ON s.id_empresa = e.id_empresa
+    INNER JOIN dbo.Responsable r ON pr.id_responsable = r.id_responsable
+    INNER JOIN dbo.Persona pe ON r.id_persona = pe.id_persona
+    WHERE e.id_empresa = @id_empresa;
+END;
+GO
+
+
+EXEC productos_por_empresa 2;
+
+
+--Consultar visitantes de una feria
+CREATE PROCEDURE visitantes_por_feria
+    @id_feria INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT DISTINCT per.nombre AS visitante, tv.nombre AS tipo_visitante
+    FROM dbo.Registro r
+    INNER JOIN dbo.Visitante v ON r.id_visitante = v.id_visitante
+    INNER JOIN dbo.Persona per ON v.id_persona = per.id_persona
+    INNER JOIN dbo.Tipo_Visitante tv ON v.id_tipo_visitante = tv.id_tipo_visitante
+    WHERE r.id_feria = @id_feria;
+END;
+GO
+
+EXEC visitantes_por_feria 2;
+
+--validar que un visitante no se registre dos veces en la mmisma feria
+CREATE TRIGGER trg_no_registro_duplicado
+ON dbo.Registro
+INSTEAD OF INSERT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    IF EXISTS (
+        SELECT 1
+        FROM dbo.Registro r
+        INNER JOIN inserted i ON r.id_visitante = i.id_visitante AND r.id_feria = i.id_feria
+    )
+    BEGIN
+        RAISERROR('El visitante ya está registrado en esta feria.', 16, 1);
+    END
+    ELSE
+    BEGIN
+        INSERT INTO dbo.Registro (id_registro, id_charla, id_feria, id_empresa, id_ponente, id_demostracion, id_visitante)
+        SELECT 
+            (SELECT ISNULL(MAX(id_registro),0)+1 FROM dbo.Registro),
+            id_charla, id_feria, id_empresa, id_ponente, id_demostracion, id_visitante
+        FROM inserted;
+    END
+END;
+GO
