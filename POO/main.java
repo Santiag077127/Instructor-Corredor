@@ -13,104 +13,104 @@ public class main {
         portatil.prender();
 
         // 4. Silla
-        Silla s1 = new Silla("Plástico", true);
-        s1.sentarse();
+        Silla silla = new Silla("Plástico", true);
+        silla.sentarse();
 
         // 5. Pizarra
-        Pizarra piz1 = new Pizarra("Acrílica", true);
-        piz1.escribir("Bienvenidos al salón");
+        Pizarra pizarra = new Pizarra("Acrílica", true);
+        pizarra.escribir("Bienvenidos al salón");
 
         // 6. Marcador
-        Marcador m1 = new Marcador("Negro", true);
-        m1.escribir();
+        Marcador marcador = new Marcador("Negro", true);
+        marcador.escribir();
 
         // 7. Borrador
-        Borrador b1 = new Borrador("Espuma", true);
-        b1.borrar();
+        Borrador borrador = new Borrador("Espuma", true);
+        borrador.borrar();
 
         // 9. Proyector
-        Proyector pr1 = new Proyector("Epson", true);
-        pr1.proyectar();
+        Proyector proyector = new Proyector("Epson", true);
+        proyector.proyectar();
 
         // 10. Ventana
-        Ventana v1 = new Ventana("Grande", false);
-        v1.abrir();
+        Ventana ventana = new Ventana("Grande", false);
+        ventana.abrir();
 
         // 11. Puerta
-        Puerta pt1 = new Puerta("Madera", false);
-        pt1.cerrar();
+        Puerta puerta = new Puerta("Madera", false);
+        puerta.cerrar();
 
         // 12. Libro
-        Libro l1 = new Libro("Java Básico", "Deitel");
-        l1.leer();
+        Libro libro = new Libro("Java Básico", "Deitel");
+        libro.leer();
 
         // 13. Cuaderno
-        Cuaderno cu1 = new Cuaderno(100, "Rojo");
-        cu1.escribir();
+        Cuaderno cuaderno = new Cuaderno(100, "Rojo");
+        cuaderno.escribir();
 
         // 14. Lámpara
-        Lampara la1 = new Lampara("LED", false);
-        la1.encender();
+        Lampara lampara = new Lampara("LED", false);
+        lampara.encender();
 
         // 15. Reloj
-        Reloj r1 = new Reloj("Digital", "08:00");
-        r1.mostrarHora();
+        Reloj reloj = new Reloj("Digital", "08:00");
+        reloj.mostrarHora();
 
         // 16. Ventilador
-        Ventilador v2 = new Ventilador("Oster", 3);
-        v2.encender();
+        Ventilador ventilador = new Ventilador("Oster", 3);
+        ventilador.encender();
 
         // 17. Basurero
-        Basurero bas1 = new Basurero("Grande", 0);
-        bas1.vaciar();
+        Basurero basurero = new Basurero("Grande", 0);
+        basurero.vaciar();
 
         // 18. Cartel
-        Cartel ca1 = new Cartel("Reglamento del aula", "Papelería");
-        ca1.mostrar();
+        Cartel cartel = new Cartel("Reglamento del aula", "Papelería");
+        cartel.mostrar();
 
         // 19. Bandera
-        Bandera ba1 = new Bandera("Colombia", "Tela");
-        ba1.mostrar();
+        Bandera bandera = new Bandera("Colombia", "Tela");
+        bandera.mostrar();
 
         // 20. Mochila
-        Mochila mo1 = new Mochila("Azul", 5);
-        mo1.abrir();
+        Mochila mochila = new Mochila("Azul", 5);
+        mochila.abrir();
 
         // 21. Regla
-        Regla re1 = new Regla(30, "Plástico");
-        re1.medir();
+        Regla regla = new Regla(30, "Plástico");
+        regla.medir();
 
         // 22. Calculadora
-        Calculadora cal1 = new Calculadora("Casio", true);
-        cal1.sumar(5, 8);
+        Calculadora calculadora = new Calculadora("Casio", true);
+        calculadora.sumar(5, 8);
 
         // 23. Tiza
-        Tiza ti1 = new Tiza("Blanca", 10);
-        ti1.usar();
+        Tiza tiza = new Tiza("Blanca", 10);
+        tiza.usar();
 
         // 24. Estuche
-        Estuche es1 = new Estuche("Negro", 10);
-        es1.abrir();
+        Estuche estuche = new Estuche("Negro", 10);
+        estuche.abrir();
 
         // 25. Parlante
-        Parlante pa1 = new Parlante("Sony", true);
-        pa1.reproducirSonido();
+        Parlante parlante = new Parlante("Sony", true);
+        parlante.reproducirSonido();
 
         // 26. Televisor
         Televisor tv1 = new Televisor("Samsung", 42);
         tv1.encender();
 
         // 27. Cortina
-        Cortina co1 = new Cortina("Azul", false);
-        co1.correr();
+        Cortina cortina = new Cortina("Azul", false);
+        cortina.correr();
 
         // 28. Piso
-        Piso pi1 = new Piso("Cerámica", "Beige");
-        pi1.limpiar();
+        Piso piso = new Piso("Cerámica", "Beige");
+        piso.limpiar();
 
         // 29. Techo
-        Techo te1 = new Techo("Blanco", true);
-        te1.revisar();
+        Techo techo = new Techo("Blanco", true);
+        techo.revisar();
 
         // 30. AireAcondicionado
         AireAcondicionado ai1 = new AireAcondicionado("LG", 22);
