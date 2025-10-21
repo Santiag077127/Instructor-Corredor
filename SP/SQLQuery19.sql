@@ -1,17 +1,8 @@
--- ========================================
--- 1. CREAR BASE DE DATOS
--- ========================================
-IF DB_ID('ConciertoDB') IS NULL
-    CREATE DATABASE ConciertoDB;
-GO
+CREATE DATABASE ConciertoDB;
 
 USE ConciertoDB;
+
 GO
-
--- ========================================
--- 2. PROCEDIMIENTO PARA CREAR TABLAS
--- ========================================
-
 CREATE PROCEDURE sp_CrearTablas
 AS
 BEGIN
@@ -80,9 +71,6 @@ GO
 EXEC sp_CrearTablasConcierto;
 GO
 
--- ========================================
--- 3. PROCEDIMIENTO PARA INSERTAR DATOS
--- ========================================
 
 CREATE PROCEDURE sp_InsertarDatos
 AS
@@ -188,9 +176,6 @@ GO
 EXEC sp_InsertarDatos
 GO
 
--- ========================================
--- 4. VISTAS (REPORTES)
--- ========================================
 
 -- Asistentes con sus boletos y conciertos
 CREATE OR ALTER VIEW vw_AsistentesBoletos AS
@@ -231,11 +216,21 @@ SELECT SUM(b.precio) AS TotalRecaudado
 FROM Boleto b;
 GO
 
--- ========================================
--- 5. CONSULTAS DE PRUEBA
--- ========================================
+
 SELECT TOP 10 * FROM vw_AsistentesBoletos;
 SELECT TOP 10 * FROM vw_ConciertosBoletos;
 SELECT TOP 10 * FROM vw_VentasEmpleados;
 SELECT TOP 10 * FROM vw_ConciertosArtistas;
 SELECT TOP 10 * FROM vw_RecaudoTotalConciertos;
+
+---concierto
+CREATE INDEX idx_nombre_concierto ON concierto(nombre);
+select nombre from Concierto;
+
+---boleto
+CREATE INDEX idx_boleto_precio ON Boleto (precio);
+select precio from Boleto;
+
+---artista
+CREATE INDEX idx_artitas_nombre ON Artista (nombre,genero);
+select * from Artista;

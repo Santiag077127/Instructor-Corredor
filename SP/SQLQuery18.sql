@@ -1,17 +1,10 @@
--- ========================================
--- 1. CREAR BASE DE DATOS
--- ========================================
-IF DB_ID('BienesRaicesDB') IS NULL
-    CREATE DATABASE BienesRaicesDB;
-GO
+CREATE DATABASE BienesRaicesDB;
 
 USE BienesRaicesDB;
-GO
 
--- ========================================
--- 2. PROCEDIMIENTO PARA CREAR TABLAS
--- ========================================
-CREATE PROCEDURE sp_CrearTablasBienesRaices
+
+GO
+CREATE PROCEDURE sp_CrearTablas
 AS
 BEGIN
     -- Clientes
@@ -81,10 +74,10 @@ IF OBJECT_ID('UsoServicio') IS NULL
 end
 GO
 
-EXEC sp_CrearTablasBienesRaices;
+EXEC sp_CrearTablas;
 
 GO
-CREATE PROCEDURE sp_InsertarDatosBienesRaices
+CREATE PROCEDURE sp_InsertarDatos
 AS
 BEGIN
     -- Clientes
@@ -155,11 +148,8 @@ GO
 EXEC sp_InsertarDatosBienesRaices;
 GO
 
--- ========================================
--- 4. VISTAS (REPORTES)
--- ========================================
-
 -- Contratos de clientes con propiedades y agentes
+GO
 CREATE OR ALTER VIEW vw_ContratosClientes AS
 SELECT c.nombre AS Cliente, p.direccion AS Propiedad, p.tipo AS TipoPropiedad, a.nombre AS Agente, ct.tipo AS TipoContrato, ct.fecha_inicio, ct.fecha_fin
 FROM Contrato ct
@@ -168,6 +158,7 @@ JOIN Propiedad p ON ct.id_propiedad = p.id_propiedad
 JOIN Agente a ON ct.id_agente = a.id_agente;
 
 -- Pagos por contrato
+GO
 CREATE OR ALTER VIEW vw_PagosPorContrato AS
 SELECT ct.id_contrato, c.nombre AS Cliente, SUM(pg.monto) AS Total_Pagado
 FROM Pago pg
@@ -177,6 +168,7 @@ GROUP BY ct.id_contrato, c.nombre;
 
 
 -- Propiedades con estado de disponibilidad
+GO
 CREATE OR ALTER VIEW vw_PropiedadesDisponibles AS
 SELECT direccion, tipo, precio, 
        CASE WHEN disponible=1 THEN 'Disponible' ELSE 'No Disponible' END AS Estado
@@ -184,14 +176,21 @@ FROM Propiedad;
 
 -- Recaudo total de la inmobiliaria
 
+GO
 CREATE OR ALTER VIEW vw_RecaudoTotalInmobiliaria AS
 SELECT SUM(monto) AS Total_Recaudado
 FROM Pago;
+GO
 
--- ========================================
--- 5. CONSULTAS DE PRUEBA
--- ========================================
 SELECT TOP 10 * FROM vw_ContratosClientes;
 SELECT TOP 10 * FROM vw_PagosPorContrato;
 SELECT TOP 10 * FROM vw_PropiedadesDisponibles;
 SELECT TOP 10 * FROM vw_RecaudoTotalInmobiliaria;
+
+---Pago
+CREATE INDEX idx_pago ON pago (monto);
+select monto from pago;
+
+---Cliente
+CREATE INDEX idx_cliente ON cliente (nombre);
+select nombre from Cliente;

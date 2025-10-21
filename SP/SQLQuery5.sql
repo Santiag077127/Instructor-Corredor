@@ -1,16 +1,9 @@
--- ========================================
--- 1. CREAR BASE DE DATOS
--- ========================================
-IF DB_ID('BibliotecaDB') IS NULL
-    CREATE DATABASE BibliotecaDB;
+CREATE DATABASE BibliotecaDB;
 GO
 
 USE BibliotecaDB;
 GO
 
--- ========================================
--- 2. PROCEDIMIENTO PARA CREAR TABLAS
--- ========================================
 CREATE OR ALTER PROCEDURE sp_CrearTablasBiblioteca
 AS
 BEGIN
@@ -95,10 +88,6 @@ EXEC sp_CrearTablasBiblioteca;
 
 GO
 
-
--- ========================================
--- 3. PROCEDIMIENTO PARA INSERTAR DATOS
--- ========================================
 CREATE OR ALTER PROCEDURE sp_InsertarDatosBiblioteca
 AS
 BEGIN
@@ -210,12 +199,6 @@ END;
 -- Insertar registros
 EXEC sp_InsertarDatosBiblioteca;
 
-
--- ========================================
--- 4. CREACIÓN DE VISTAS (REPORTES)
--- ========================================
-
--- Usuarios con los libros que tienen prestados
 GO
 CREATE VIEW vw_UsuariosPrestamos AS
 SELECT u.id_usuario, u.nombre, l.titulo, p.fecha_prestamo, p.fecha_devolucion
@@ -248,8 +231,18 @@ LEFT JOIN Prestamo p ON u.id_usuario = p.id_usuario
 GROUP BY u.id_usuario, u.nombre;
 GO
 
--- Consultar vistas (reportes)
 SELECT TOP 10 * FROM vw_UsuariosPrestamos;
 SELECT TOP 10 * FROM vw_LibrosAutores;
 SELECT TOP 10 * FROM vw_LibrosCategorias;
 SELECT TOP 10 * FROM vw_PrestamosPorUsuario;
+
+---Libro
+CREATE INDEX idx_libro_titulo_genero ON Libro (titulo,genero);
+
+select titulo from Libro;
+
+---Prestamo
+
+CREATE INDEX idc_prestamo_fechas ON prestamo(fecha_prestamo,fecha_devolucion);
+
+select * from Prestamo;

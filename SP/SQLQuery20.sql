@@ -1,16 +1,8 @@
--- ========================================
--- 1. CREAR BASE DE DATOS
--- ========================================
-IF DB_ID('AeropuertoDB') IS NULL
-    CREATE DATABASE AeropuertoDB;
-GO
+CREATE DATABASE AeropuertoDB;
 
 USE AeropuertoDB;
-GO
 
--- ========================================
--- 2. PROCEDIMIENTO PARA CREAR TABLAS
--- ========================================
+GO
 CREATE OR ALTER PROCEDURE sp_CrearTablas
 AS
 BEGIN
@@ -80,9 +72,6 @@ GO
 EXEC sp_CrearTablas;
 GO
 
--- ========================================
--- 3. PROCEDIMIENTO PARA INSERTAR DATOS
--- ========================================
 CREATE OR ALTER PROCEDURE sp_InsertarDatos AS
 BEGIN
     -- Pasajeros (10 registros)
@@ -147,10 +136,8 @@ GO
 EXEC sp_InsertarDatosAeropuerto;
 GO
 
--- ========================================
--- 4. VISTAS / REPORTES
--- ========================================
 -- Pasajeros con sus vuelos
+GO
 CREATE OR ALTER VIEW vw_PasajerosVuelos AS
 SELECT p.nombre AS Pasajero, v.numero_vuelo, v.origen, v.destino, v.fecha, v.hora
 FROM Pasajero p
@@ -158,6 +145,7 @@ JOIN Reserva r ON p.id_pasajero = r.id_pasajero
 JOIN Vuelo v ON r.id_vuelo = v.id_vuelo;
 
 -- Vuelos con su aerolínea y puerta asignada
+GO
 CREATE OR ALTER VIEW vw_VuelosAerolineasPuertas AS
 SELECT v.numero_vuelo, a.nombre AS Aerolinea, v.origen, v.destino, v.fecha, v.hora, pt.numero AS Puerta
 FROM Vuelo v
@@ -166,16 +154,22 @@ JOIN VueloPuerta vp ON v.id_vuelo = vp.id_vuelo
 JOIN Puerta pt ON vp.id_puerta = pt.id_puerta;
 
 -- Reservas por pasajero
+GO
 CREATE OR ALTER VIEW vw_ReservasPorPasajero AS
 SELECT p.nombre AS Pasajero, COUNT(r.id_reserva) AS NumeroReservas
 FROM Pasajero p
 LEFT JOIN Reserva r ON p.id_pasajero = r.id_pasajero
 GROUP BY p.nombre;
+GO
 
--- ========================================
--- 5. CONSULTAS DE PRUEBA
--- ========================================
 SELECT TOP 10 * FROM vw_PasajerosVuelos;
 SELECT TOP 10 * FROM vw_VuelosAerolineasPuertas;
 SELECT TOP 10 * FROM vw_ReservasPorPasajero;
-GO
+
+--Pasajero
+CREATE INDEX idx_pasajero_pasaporte ON Pasajero(pasaporte);
+select pasaporte from Pasajero;
+
+---Aerolinea
+CREATE INDEX idx_aeroline ON Aerolinea (nombre);
+select nombre from Aerolinea;

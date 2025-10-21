@@ -355,3 +355,100 @@ BEGIN
     END
 END;
 GO
+
+------------1 SCHEMA
+
+CREATE SCHEMA seguridad;
+GO
+
+CREATE TABLE seguridad.Usuario (
+    id_usuario INT IDENTITY(1,1) PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    contrasena VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE seguridad.Rol (
+    id_rol INT IDENTITY(1,1) PRIMARY KEY,
+    nombre_rol VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE seguridad.Usuario_Rol (
+    id_usuario INT,
+    id_rol INT,
+    PRIMARY KEY (id_usuario, id_rol),
+    FOREIGN KEY (id_usuario) REFERENCES seguridad.Usuario(id_usuario),
+    FOREIGN KEY (id_rol) REFERENCES seguridad.Rol(id_rol)
+);
+
+CREATE TABLE seguridad.Permiso (
+    id_permiso INT IDENTITY(1,1) PRIMARY KEY,
+    modulo VARCHAR(50),
+    accion VARCHAR(50)
+);
+
+-----usuario
+INSERT INTO seguridad.Usuario (nombre, contrasena) 
+VALUES ('admin', '12345');
+
+INSERT INTO seguridad.Usuario (nombre,contrasena)
+VALUES ('Santiago','88779V');
+
+---ROL
+INSERT INTO seguridad.Rol (nombre_rol) 
+VALUES ('Administrador');
+
+INSERT INTO seguridad.Rol (nombre_rol)
+VALUES ('organizador')
+
+---Usuario Rol
+INSERT INTO seguridad.Usuario_Rol (id_usuario, id_rol) 
+VALUES (1,1);
+
+INSERT INTO seguridad.Usuario_Rol (id_usuario, id_rol) 
+VALUES (2,2);
+
+
+SELECT id_usuario, nombre
+FROM seguridad.Usuario
+WHERE nombre = 'admin'
+  AND contrasena = '12345';
+
+SELECT id_usuario, nombre
+FROM seguridad.Usuario
+WHERE nombre = 'Santiago'
+  AND contrasena = '88779V';
+
+-----------2 SCHEMA 
+GO
+CREATE SCHEMA persona;
+GO
+
+ALTER SCHEMA persona TRANSFER dbo.Persona;
+ALTER SCHEMA persona TRANSFER dbo.Tipo_Visitante;
+ALTER SCHEMA persona TRANSFER dbo.Visitante;
+ALTER SCHEMA persona TRANSFER dbo.Ponente;
+ALTER SCHEMA persona TRANSFER dbo.Responsable;
+
+
+GO 
+CREATE SCHEMA feria;
+GO
+
+ALTER SCHEMA feria TRANSFER dbo.Feria;
+ALTER SCHEMA feria TRANSFER dbo.Pabellon;
+ALTER SCHEMA feria TRANSFER dbo.Charla;
+ALTER SCHEMA feria TRANSFER dbo.Registro;
+ALTER SCHEMA feria TRANSFER dbo.Demostracion;
+ALTER SCHEMA feria TRANSFER dbo.Tematica;
+
+GO
+CREATE SCHEMA empresa;
+GO
+ALTER SCHEMA empresa TRANSFER dbo.Empresa;
+ALTER SCHEMA empresa TRANSFER dbo.Producto;
+ALTER SCHEMA empresa TRANSFER dbo.Stand;
+
+
+CREATE LOGIN usuario WITH PASSWORD ='12345';
+
+CREATE USER administrador FOR LOGIN usuario;

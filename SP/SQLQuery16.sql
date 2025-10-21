@@ -1,21 +1,13 @@
--- ========================================
--- 1. CREAR BASE DE DATOS
--- ========================================
-IF DB_ID('GimnasioDB') IS NULL
-    CREATE DATABASE GimnasioDB;
+CREATE DATABASE GimnasioDB;
 GO
 
 USE GimnasioDB;
 GO
-
--- ========================================
--- 2. PROCEDIMIENTO PARA CREAR TABLAS
--- ========================================
 CREATE OR ALTER PROCEDURE sp_CrearTablasGimnasio
 AS
 BEGIN
     -- Socio
-    IF OBJECT_ID('Socio', 'U') IS NULL
+    IF OBJECT_ID('Socio') IS NULL
     BEGIN
         CREATE TABLE Socio (
             id_socio INT PRIMARY KEY,
@@ -26,7 +18,7 @@ BEGIN
     END;
 
     -- Membresía
-    IF OBJECT_ID('Membresia', 'U') IS NULL
+    IF OBJECT_ID('Membresia') IS NULL
     BEGIN
         CREATE TABLE Membresia (
             id_membresia INT PRIMARY KEY,
@@ -38,7 +30,7 @@ BEGIN
     END;
 
     -- Instructor
-    IF OBJECT_ID('Instructor', 'U') IS NULL
+    IF OBJECT_ID('Instructor') IS NULL
     BEGIN
         CREATE TABLE Instructor (
             id_instructor INT PRIMARY KEY,
@@ -48,7 +40,7 @@ BEGIN
     END;
 
     -- Clase
-    IF OBJECT_ID('Clase', 'U') IS NULL
+    IF OBJECT_ID('Clase') IS NULL
     BEGIN
         CREATE TABLE Clase (
             id_clase INT PRIMARY KEY,
@@ -59,7 +51,7 @@ BEGIN
     END;
 
     -- SocioClase (inscripción de socios a clases)
-    IF OBJECT_ID('SocioClase', 'U') IS NULL
+    IF OBJECT_ID('SocioClase') IS NULL
     BEGIN
         CREATE TABLE SocioClase (
             id_socioclase INT PRIMARY KEY,
@@ -70,7 +62,7 @@ BEGIN
     END;
 
     -- Equipo
-    IF OBJECT_ID('Equipo', 'U') IS NULL
+    IF OBJECT_ID('Equipo') IS NULL
     BEGIN
         CREATE TABLE Equipo (
             id_equipo INT PRIMARY KEY,
@@ -80,7 +72,7 @@ BEGIN
     END;
 
     -- Rutina
-    IF OBJECT_ID('Rutina', 'U') IS NULL
+    IF OBJECT_ID('Rutina') IS NULL
     BEGIN
         CREATE TABLE Rutina (
             id_rutina INT PRIMARY KEY,
@@ -94,11 +86,7 @@ GO
 
 -- Crear tablas
 EXEC sp_CrearTablasGimnasio;
-
-
--- ========================================
--- 3. PROCEDIMIENTO PARA INSERTAR DATOS
--- ========================================
+GO
 CREATE OR ALTER PROCEDURE sp_InsertarDatosGimnasio
 AS
 BEGIN
@@ -218,9 +206,6 @@ END;
 -- Insertar datos
 EXEC sp_InsertarDatosGimnasio;
 
--- ========================================
--- 4. CREACIÓN DE VISTAS (REPORTES)
--- ========================================
 
 -- Socios con sus membresías
 GO
@@ -261,14 +246,17 @@ FROM Equipo
 GROUP BY estado;
 GO
 
-
--- ========================================
--- 5. EJECUCIÓN Y VERIFICACIÓN
--- ========================================
-
 -- Consultar vistas (reportes)
 SELECT TOP 10 * FROM vw_SociosMembresias;
 SELECT TOP 10 * FROM vw_ClasesInscritos;
 SELECT TOP 10 * FROM vw_RutinasInstructor;
 SELECT TOP 10 * FROM vw_SociosRutinas;
 SELECT TOP 10 * FROM vw_EquiposEstado;
+
+---RUTINA
+CREATE INDEX idx_rutina ON Rutina (id_rutina,id_socio,id_instructor,descripcion);
+SELECT * FROM Rutina;
+
+---MEMBRESIA
+CREATE INDEX idx_membresia ON membresia (id_membresia,id_socio,tipo,fecha_inicio,fecha_fin);
+select * from Membresia;

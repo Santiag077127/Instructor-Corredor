@@ -1,16 +1,9 @@
--- ========================================
--- 1. CREAR BASE DE DATOS
--- ========================================
-IF DB_ID('HospitalDB') IS NULL
-    CREATE DATABASE HospitalDB;
+CREATE DATABASE HospitalDB;
 GO
 
 USE HospitalDB;
 GO
 
--- ========================================
--- 2. PROCEDIMIENTO PARA CREAR TABLAS
--- ========================================
 CREATE OR ALTER PROCEDURE sp_CrearTablasHospital
 AS
 BEGIN
@@ -98,10 +91,6 @@ GO
 -- Crear tablas
 EXEC sp_CrearTablasHospital;
 
-
--- ========================================
--- 3. PROCEDIMIENTO PARA INSERTAR DATOS
--- ========================================
 GO
 CREATE OR ALTER PROCEDURE sp_InsertarDatosHospital
 AS
@@ -214,10 +203,6 @@ END;
 -- Insertar registros
 EXEC sp_InsertarDatosHospital;
 
--- ========================================
--- 4. CREACIÓN DE VISTAS (REPORTES)
--- ========================================
-
 -- Pacientes con sus citas y doctores
 GO
 CREATE OR ALTER VIEW vw_PacientesCitas AS
@@ -254,13 +239,20 @@ LEFT JOIN Cita c ON d.id_doctor = c.id_doctor
 GROUP BY d.id_doctor, d.nombre, d.especialidad;
 GO
 
-
--- ========================================
--- 5. EJECUCIÓN Y VERIFICACIÓN
--- ========================================
-
 -- Consultar vistas (reportes)
 SELECT TOP 10 * FROM vw_PacientesCitas;
 SELECT TOP 10 * FROM vw_HabitacionesOcupadas;
 SELECT TOP 10 * FROM vw_CitasTratamientos;
 SELECT TOP 10 * FROM vw_TotalCitasPorDoctor;
+
+---Cita
+CREATE INDEX idx_citamedica ON cita (fecha,motivo);
+select motivo from Cita;
+
+---tratamiento
+CREATE INDEX idx_tratamiento ON tratamiento (descripcion,costo);
+select * from Tratamiento;
+
+---internacion
+CREATE INDEX idx_internacion ON internacion (fecha_ingreso,fecha_salida);
+select * from Internacion where id_internacion=4;

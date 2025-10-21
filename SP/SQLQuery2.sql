@@ -10,7 +10,7 @@ CREATE OR ALTER PROCEDURE sp_CrearTablasUniversidad
 AS
 BEGIN
 
-    IF OBJECT_ID('Estudiante', 'U') IS NULL
+    IF OBJECT_ID('Estudiante') IS NULL
     BEGIN
         CREATE TABLE Estudiante (
             id_estudiante INT PRIMARY KEY,
@@ -21,7 +21,7 @@ BEGIN
     END;
 
  
-    IF OBJECT_ID('Profesor', 'U') IS NULL
+    IF OBJECT_ID('Profesor') IS NULL
     BEGIN
         CREATE TABLE Profesor (
             id_profesor INT PRIMARY KEY,
@@ -31,7 +31,7 @@ BEGIN
     END;
 
   
-    IF OBJECT_ID('Curso', 'U') IS NULL
+    IF OBJECT_ID('Curso') IS NULL
     BEGIN
         CREATE TABLE Curso (
             id_curso INT PRIMARY KEY,
@@ -41,7 +41,7 @@ BEGIN
     END;
 
    
-    IF OBJECT_ID('Aula', 'U') IS NULL
+    IF OBJECT_ID('Aula') IS NULL
     BEGIN
         CREATE TABLE Aula (
             id_aula INT PRIMARY KEY,
@@ -64,7 +64,7 @@ BEGIN
     END;
 
    
-    IF OBJECT_ID('Matricula', 'U') IS NULL
+    IF OBJECT_ID('Matricula') IS NULL
     BEGIN
         CREATE TABLE Matricula (
             id_matricula INT PRIMARY KEY,
@@ -74,7 +74,7 @@ BEGIN
         );
     END;
 
-    IF OBJECT_ID('Nota', 'U') IS NULL
+    IF OBJECT_ID('Nota') IS NULL
     BEGIN
         CREATE TABLE Nota (
             id_nota INT PRIMARY KEY,
@@ -198,12 +198,11 @@ BEGIN
 END;
 GO
 
--- ========================================
--- 4. CREACIÓN DE VISTAS (REPORTES)
--- ========================================
 
+--REPORTES
 -- Estudiantes con sus cursos
-CREATE VIEW vw_EstudiantesCursos AS
+
+CREATE VIEW vw_EstudiantesCurso AS
 SELECT e.id_estudiante, e.nombre AS estudiante, c.nombre AS curso, m.fecha
 FROM Estudiante e
 INNER JOIN Matricula m ON e.id_estudiante = m.id_estudiante
@@ -211,7 +210,7 @@ INNER JOIN Curso c ON m.id_curso = c.id_curso;
 GO
 
 -- Profesores con los cursos que dictan
-CREATE VIEW vw_ProfesoresCursos AS
+CREATE VIEW vw_ProfesoresCurso AS
 SELECT p.id_profesor, p.nombre AS profesor, c.nombre AS curso, h.dia, h.hora
 FROM Profesor p
 INNER JOIN Horario h ON p.id_profesor = h.id_profesor
@@ -219,7 +218,7 @@ INNER JOIN Curso c ON h.id_curso = c.id_curso;
 GO
 
 -- Promedio de notas por estudiante
-CREATE VIEW vw_PromedioNotasEstudiantes AS
+CREATE VIEW vw_PromedioNotasEstudiante AS
 SELECT e.id_estudiante, e.nombre, AVG(n.nota) AS promedio
 FROM Estudiante e
 INNER JOIN Matricula m ON e.id_estudiante = m.id_estudiante
@@ -228,7 +227,7 @@ GROUP BY e.id_estudiante, e.nombre;
 GO
 
 -- Cursos con cantidad de estudiantes
-CREATE VIEW vw_CursosConEstudiantes AS
+CREATE VIEW vw_CursosConEstudiante AS
 SELECT c.id_curso, c.nombre AS curso, COUNT(m.id_estudiante) AS total_estudiantes
 FROM Curso c
 LEFT JOIN Matricula m ON c.id_curso = m.id_curso
@@ -236,16 +235,12 @@ GROUP BY c.id_curso, c.nombre;
 GO
 
 -- Aulas con cursos asignados
-CREATE VIEW vw_AulasCursos AS
+CREATE VIEW vw_AulasCurso AS
 SELECT a.id_aula, a.ubicacion, a.capacidad, c.nombre AS curso, h.dia, h.hora
 FROM Aula a
 INNER JOIN Horario h ON a.id_aula = h.id_aula
 INNER JOIN Curso c ON h.id_curso = c.id_curso;
 GO
-
--- ========================================
--- 5. EJECUCIÓN Y VERIFICACIÓN
--- ========================================
 
 -- Insertar registros
 EXEC sp_InsertarDatosUniversidad;
@@ -256,3 +251,26 @@ SELECT TOP 10 * FROM vw_ProfesoresCursos;
 SELECT TOP 10 * FROM vw_PromedioNotasEstudiantes;
 SELECT TOP 10 * FROM vw_CursosConEstudiantes;
 SELECT TOP 10 * FROM vw_AulasCursos;
+
+--Estudiante
+CREATE INDEX idx_estudiante_nombre ON estudiante(nombre);
+
+SELECT nombre FROM estudiante;
+
+--Profesor
+CREATE NONCLUSTERED INDEX idx_profesor_nombre ON Profesor(nombre);
+
+SELECT nombre FROM Profesor;
+
+---Curso
+create index idx_curso_creditos on curso(nombre,creditos);
+
+select nombre from curso;
+
+---Nota
+CREATE INDEX edx_nota ON Nota (nota);
+select nota from Nota;
+
+---Horario
+CREATE INDEX idx_horario ON Horario(dia,hora);
+SELECT dia FROM Horario;

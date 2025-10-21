@@ -1,18 +1,9 @@
--- ========================================
--- 1. CREAR BASE DE DATOS
--- ========================================
-IF DB_ID('RedSocialDB') IS NULL
-    CREATE DATABASE RedSocialDB;
+CREATE DATABASE RedSocialDB;
 GO
-
 USE RedSocialDB;
 
-
--- ========================================
--- 2. PROCEDIMIENTO PARA CREAR TABLAS
--- ========================================
 GO
-CREATE PROCEDURE sp_CrearTablasRedSocial
+CREATE PROCEDURE sp_CrearTablas
 AS
 BEGIN
     -- Usuarios
@@ -85,11 +76,8 @@ END;
 
 EXEC sp_CrearTablasRedSocial;
 
--- ========================================
--- 3. PROCEDIMIENTO PARA INSERTAR DATOS
--- ========================================
 GO
-CREATE PROCEDURE sp_InsertarDatosRedSocial
+CREATE PROCEDURE sp_InsertarDatos
 AS
 BEGIN
     -- Usuarios
@@ -190,14 +178,9 @@ BEGIN
 END;
 GO
 
-EXEC sp_InsertarDatosRedSocial;
+EXEC sp_InsertarDatos;
+
 GO
-
--- ========================================
--- 4. VISTAS (REPORTES)
--- ========================================
-
--- Publicaciones con usuario y cantidad de comentarios
 CREATE OR ALTER VIEW vw_PublicacionesComentarios AS
 SELECT p.id_publicacion, u.nombre AS Usuario, p.contenido, p.fecha,
        COUNT(c.id_comentario) AS TotalComentarios
@@ -206,39 +189,41 @@ INNER JOIN Usuario u ON p.id_usuario = u.id_usuario
 LEFT JOIN Comentario c ON p.id_publicacion = c.id_publicacion
 GROUP BY p.id_publicacion, u.nombre, p.contenido, p.fecha;
 
--- Reacciones por publicación
+GO
 CREATE OR ALTER VIEW vw_ReaccionesPorPublicacion AS
 SELECT p.id_publicacion, p.contenido, COUNT(r.id_reaccion) AS TotalReacciones
 FROM Publicacion p
 LEFT JOIN Reaccion r ON p.id_publicacion = r.id_publicacion
 GROUP BY p.id_publicacion, p.contenido;
 
--- Mensajes enviados por usuario
+GO
 CREATE OR ALTER VIEW vw_MensajesEnviados AS
 SELECT u.id_usuario, u.nombre, COUNT(m.id_mensaje) AS TotalMensajes
 FROM Usuario u
 LEFT JOIN Mensaje m ON u.id_usuario = m.id_emisor
 GROUP BY u.id_usuario, u.nombre;
 
--- Amigos por usuario
+GO
 CREATE OR ALTER VIEW vw_AmigosPorUsuario AS
 SELECT u.id_usuario, u.nombre, COUNT(a.id_amigo) AS TotalAmigos
 FROM Usuario u
 LEFT JOIN Amigo a ON u.id_usuario = a.id_usuario1 OR u.id_usuario = a.id_usuario2
 GROUP BY u.id_usuario, u.nombre;
 
--- Publicaciones más recientes
+GO
 CREATE OR ALTER VIEW vw_PublicacionesRecientes AS
 SELECT TOP 10 p.id_publicacion, u.nombre AS Usuario, p.contenido, p.fecha
 FROM Publicacion p
 INNER JOIN Usuario u ON p.id_usuario = u.id_usuario
 ORDER BY p.fecha DESC;
 
--- ========================================
--- 5. CONSULTAS DE PRUEBA
--- ========================================
+GO
 SELECT TOP 10 * FROM vw_PublicacionesComentarios;
 SELECT TOP 10 * FROM vw_ReaccionesPorPublicacion;
 SELECT TOP 10 * FROM vw_MensajesEnviados;
 SELECT TOP 10 * FROM vw_AmigosPorUsuario;
 SELECT TOP 10 * FROM vw_PublicacionesRecientes;
+
+---CONTENIDO
+CREATE INDEX idx_publicacion ON publicacion (contenido,fecha);
+SELECT * FROM Publicacion;

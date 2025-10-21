@@ -1,16 +1,7 @@
--- ========================================
--- 1. CREAR BASE DE DATOS
--- ========================================
-IF DB_ID('AgenciaViajesDB') IS NULL
-    CREATE DATABASE AgenciaViajesDB;
-GO
+CREATE DATABASE AgenciaViajesDB;
 
 USE AgenciaViajesDB;
-GO
 
--- ========================================
--- 2. PROCEDIMIENTO PARA CREAR TABLAS
--- ========================================
 GO
 CREATE PROCEDURE sp_CrearTablas
 AS
@@ -84,9 +75,6 @@ GO
 EXEC sp_CrearTablasAgencia;
 GO
 
--- ========================================
--- 3. PROCEDIMIENTO PARA INSERTAR DATOS
--- ========================================
 IF OBJECT_ID('sp_InsertarDatosAgencia') IS NOT NULL
     DROP PROCEDURE sp_InsertarDatosAgencia;
 GO
@@ -160,13 +148,10 @@ END;
 GO
 
 EXEC sp_InsertarDatosAgencia;
-GO
 
--- ========================================
--- 4. VISTAS (REPORTES)
--- ========================================
 
 -- Clientes con sus reservas y paquetes
+GO
 CREATE OR ALTER VIEW vw_ClientesReservas AS
 SELECT c.nombre AS Cliente, p.nombre AS Paquete, r.fecha, r.estado
 FROM Cliente c
@@ -174,6 +159,7 @@ JOIN Reserva r ON c.id_cliente = r.id_cliente
 JOIN Paquete p ON r.id_paquete = p.id_paquete;
 
 -- Paquetes vendidos por destino
+GO
 CREATE OR ALTER VIEW vw_PaquetesPorDestino AS
 SELECT d.ciudad, d.pais, COUNT(r.id_reserva) AS Total_Reservas
 FROM Destino d
@@ -182,6 +168,7 @@ JOIN Reserva r ON p.id_paquete = r.id_paquete
 GROUP BY d.ciudad, d.pais;
 
 -- Ventas por empleado
+GO
 CREATE OR ALTER VIEW vw_VentasPorEmpleado AS
 SELECT e.nombre AS Empleado, COUNT(v.id_venta) AS Total_Ventas, SUM(v.monto) AS Total_Monto
 FROM Empleado e
@@ -196,15 +183,22 @@ FROM Vuelo v
 JOIN Destino d ON v.id_destino = d.id_destino;
 
 -- Recaudo total de la agencia
+GO
 CREATE OR ALTER VIEW vw_RecaudoTotalAgencia AS
 SELECT SUM(monto) AS Total_Recaudado
 FROM Venta;
+GO 
 
--- ========================================
--- 5. CONSULTAS DE PRUEBA
--- ========================================
 SELECT TOP 10 * FROM vw_ClientesReservas;
 SELECT TOP 10 * FROM vw_PaquetesPorDestino;
 SELECT TOP 10 * FROM vw_VentasPorEmpleado;
 SELECT TOP 10 * FROM vw_VuelosPorDestino;
 SELECT TOP 10 * FROM vw_RecaudoTotalAgencia;
+
+---VUELO
+CREATE INDEX idx_vuelo ON vuelo(id_vuelo,id_destino,salida,regreso);
+select aerolinea from vuelo;
+
+---VENTA
+CREATE INDEX idx_venta ON venta (monto);
+select * from Venta;

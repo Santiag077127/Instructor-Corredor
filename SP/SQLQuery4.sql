@@ -1,20 +1,9 @@
--- ========================================
--- 1. CREAR BASE DE DATOS
--- ========================================
-IF DB_ID('TallerDB') IS NULL
-    CREATE DATABASE TallerDB;
-GO
-
+CREATE DATABASE TallerDB;
 USE TallerDB;
 GO
-
--- ========================================
--- 2. PROCEDIMIENTO PARA CREAR TABLAS
--- ========================================
 CREATE OR ALTER PROCEDURE sp_CrearTablasTaller
 AS
 BEGIN
-    -- Cliente
     IF OBJECT_ID('Cliente', 'U') IS NULL
     BEGIN
         CREATE TABLE Cliente (
@@ -97,9 +86,7 @@ GO
 EXEC sp_CrearTablasTaller;
 
 GO
--- ========================================
--- 3. PROCEDIMIENTO PARA INSERTAR DATOS
--- ========================================
+
 CREATE OR ALTER PROCEDURE sp_InsertarDatosTaller
 AS
 BEGIN
@@ -221,10 +208,6 @@ EXEC sp_InsertarDatosTaller;
 
 GO
 
--- ========================================
--- 4. CREACIÓN DE VISTAS (REPORTES)
--- ========================================
-
 -- Clientes y sus vehículos
 CREATE VIEW vw_ClientesVehiculos AS
 SELECT c.id_cliente, c.nombre, c.telefono, v.id_vehiculo, v.placa, v.marca
@@ -266,3 +249,21 @@ SELECT TOP 10 * FROM vw_VehiculosTalleres;
 SELECT TOP 10 * FROM vw_Talleres;
 SELECT TOP 10 * FROM vw_ServiciosRepuestos;
 SELECT TOP 10 * FROM vw_Repuestos;
+
+--Servicio
+CREATE INDEX idx_servicio_nombre ON Servicio (descripcion);
+
+select descripcion from Servicio;
+
+---- Indexar por marca
+CREATE INDEX idx_vehiculo_marca 
+ON Vehiculo(marca);
+
+select marca from Vehiculo;
+
+
+CREATE INDEX idx_vehiculo_placa 
+ON Vehiculo(placa);
+
+select * from Vehiculo;
+
