@@ -9,7 +9,6 @@ Herencia:
 
 La herencia es un mecanismo que permite que una clase (llamada clase hija o subclase) adquiera los atributos y metodos de otra clase (llamada clase padre o superclase).
 
-
 Gracias a la herencia, se puede reutilizar codigo, extender funcionalidades existentes y establecer relaciones jerarquicas entre clases.En otras palabras, la herencia permite crear nuevas clases basadas en clases ya definidas, evitando repetir codigo y promoviendo la reutilizacion.
 
 Como se puede ver en la imagen es como se ve graficamente en UML 
