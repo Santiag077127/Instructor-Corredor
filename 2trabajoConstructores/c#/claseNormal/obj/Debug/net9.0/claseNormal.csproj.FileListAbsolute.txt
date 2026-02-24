@@ -1,0 +1,14 @@
+C:\Users\USUARIO\OneDrive\Documentos\trabajoCorredor\tareas\2trabajoConstructores\c#\claseNormal\bin\Debug\net9.0\claseNormal.exe
+C:\Users\USUARIO\OneDrive\Documentos\trabajoCorredor\tareas\2trabajoConstructores\c#\claseNormal\bin\Debug\net9.0\claseNormal.deps.json
+C:\Users\USUARIO\OneDrive\Documentos\trabajoCorredor\tareas\2trabajoConstructores\c#\claseNormal\bin\Debug\net9.0\claseNormal.runtimeconfig.json
+C:\Users\USUARIO\OneDrive\Documentos\trabajoCorredor\tareas\2trabajoConstructores\c#\claseNormal\bin\Debug\net9.0\claseNormal.dll
+C:\Users\USUARIO\OneDrive\Documentos\trabajoCorredor\tareas\2trabajoConstructores\c#\claseNormal\bin\Debug\net9.0\claseNormal.pdb
+C:\Users\USUARIO\OneDrive\Documentos\trabajoCorredor\tareas\2trabajoConstructores\c#\claseNormal\obj\Debug\net9.0\claseNormal.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\USUARIO\OneDrive\Documentos\trabajoCorredor\tareas\2trabajoConstructores\c#\claseNormal\obj\Debug\net9.0\claseNormal.AssemblyInfoInputs.cache
+C:\Users\USUARIO\OneDrive\Documentos\trabajoCorredor\tareas\2trabajoConstructores\c#\claseNormal\obj\Debug\net9.0\claseNormal.AssemblyInfo.cs
+C:\Users\USUARIO\OneDrive\Documentos\trabajoCorredor\tareas\2trabajoConstructores\c#\claseNormal\obj\Debug\net9.0\claseNormal.csproj.CoreCompileInputs.cache
+C:\Users\USUARIO\OneDrive\Documentos\trabajoCorredor\tareas\2trabajoConstructores\c#\claseNormal\obj\Debug\net9.0\claseNormal.dll
+C:\Users\USUARIO\OneDrive\Documentos\trabajoCorredor\tareas\2trabajoConstructores\c#\claseNormal\obj\Debug\net9.0\refint\claseNormal.dll
+C:\Users\USUARIO\OneDrive\Documentos\trabajoCorredor\tareas\2trabajoConstructores\c#\claseNormal\obj\Debug\net9.0\claseNormal.pdb
+C:\Users\USUARIO\OneDrive\Documentos\trabajoCorredor\tareas\2trabajoConstructores\c#\claseNormal\obj\Debug\net9.0\claseNormal.genruntimeconfig.cache
+C:\Users\USUARIO\OneDrive\Documentos\trabajoCorredor\tareas\2trabajoConstructores\c#\claseNormal\obj\Debug\net9.0\ref\claseNormal.dll

@@ -1,0 +1,5 @@
+package interfaz;
+
+interface Idispositivo {
+    
+}
